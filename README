@@ -1,0 +1,32 @@
+Kolab/DirServ/Config version 0.01
+=================================
+
+This module provides a standard interface through which to retrieve 
+address book replication information.
+
+The peers are populated from $kolab_prefix/etc/kolab/addressbook.peers
+Configuration is read from $kolab_prefix/etc/kolab/dirserv.conf
+
+INSTALLATION
+
+To install this module type the following:
+
+   perl Makefile.PL
+   make
+   make test
+   make install
+
+DEPENDENCIES
+
+This module requires these other modules and libraries:
+
+  IO::File
+  Kolab::Config
+  
+COPYRIGHT AND LICENCE
+
+Copyright 2003 by Stephan Buys
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself. 
+
