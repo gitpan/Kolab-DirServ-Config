@@ -25,7 +25,7 @@ our @EXPORT = qw(
 	%dirserv_config @addressbook_peers
 );
 
-our $VERSION = '0.01';
+our $VERSION = '0.03';
 use vars qw(%dirserv_config @routing_peers @addressbook_peers);
 use IO::File;
 use Kolab::Config;
@@ -34,19 +34,23 @@ use Kolab::Config;
 %dirserv_config = ();
 @addressbook_peers = ();
 
+my $fd;
+
 my $dirserv_conf = $kolab_prefix."/etc/kolab/dirserv.conf";
-my $fd = IO::File->new($dirserv_conf, "r") || warn "could not open $dirserv_conf";
-foreach (<$fd>) {
+if ($fd = IO::File->new($dirserv_conf, "r")) { foreach (<$fd>) {
    if (/(.*) : (.*)/) { 
       $dirserv_config{$1} = $2; 
       #print "$1 $2\n";
    }
 }
 undef $fd;
+} else {
+ warn "could not open $dirserv_conf";
+}
 
 my $addressbook_peers = $kolab_prefix."/etc/kolab/addressbook.peers";
-$fd = IO::File->new($addressbook_peers, "r") || warn "could not open $addressbook_peers";
-foreach (<$fd>) {
+if ($fd = IO::File->new($addressbook_peers, "r")) { 
+   foreach (<$fd>) {
    my $peer = $_;
    chomp($peer);
    $peer =~ s/\#.+$//;
@@ -56,8 +60,11 @@ foreach (<$fd>) {
    }
 }
 undef $fd;
+} else {
+  warn "could not open $addressbook_peers";
+}
 
-$dirserv_config{'notify_from'} || die "could not read notify_from from $dirserv_conf";
+$dirserv_config{'notify_from'} || warn "could not read notify_from from $dirserv_conf";
 
 
 1;
@@ -65,7 +72,7 @@ __END__
 
 =head1 NAME
 
-Kolab::Config - A Perl Module that acts as a standard interface to the
+Kolab::DirServ::Config - A Perl Module that acts as a standard interface to the
 configuration settings of a Kolab server.
 
 =head1 SYNOPSIS

@@ -5,7 +5,9 @@ use ExtUtils::MakeMaker;
 WriteMakefile(
     'NAME'		=> 'Kolab::DirServ::Config',
     'VERSION_FROM'	=> 'Config.pm', # finds $VERSION
-    'PREREQ_PM'		=> {}, # e.g., Module::Name => 1.1
+    'PREREQ_PM'		=> {
+       'Kolab::Config' => '>0.1',
+    }, # e.g., Module::Name => 1.1
     ($] >= 5.005 ?    ## Add these new keywords supported since 5.005
       (ABSTRACT_FROM => 'Config.pm', # retrieve abstract from module
        AUTHOR     => 'root <root@(none)>') : ()),
